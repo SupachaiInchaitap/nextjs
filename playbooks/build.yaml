@@ -1,8 +1,13 @@
 - name: Build Docker Image
-  hosts: web
-  become: yes
+  hosts: dockerservers
+  gather_facts: false
+  remote_user: root
   tasks:
-    - name: Build Docker Image
-      command: docker build -t my-nextjs-app:latest -f Dockerfile .
-      args:
-        chdir: ~/66024963-nextjs  
+    - name: Building Docker Image
+      docker_image:
+        name: 66026190-nextjs:latest
+        source: build
+        build:
+          path: ~/66026190-nextjs
+        state: present
+        force_source: true
