@@ -12,7 +12,7 @@ const Banner = () => {
                             Solve 66026190 with an <br /> 66026190.
                         </h1>
                         <p className="mt-6 text-lg leading-8 text-bluegray">
-                            Ehya is the Instagram analytics platform teams use to stay focused on the goals, track <br /> engagement for report your business .
+                            66026190 66026190
                         </p>
                     </div>
 
