@@ -1,24 +1,32 @@
 pipeline {
     agent any
+
     stages {      
-        stage("Copy file to Docker server"){
+        stage("Install Dependencies & Build Next.js") {
             steps {
-				//แก้ตรง team33-neogym ให้เป็นชื่อเดียวกับ pipeline job/item ที่สร้างใน jenkins
+                sh """
+                cd /var/lib/jenkins/workspace/66026190-nextjs
+                npm install
+                npm run build
+                """
+            }
+        }
+
+        stage("Copy Files to Docker Server") {
+            steps {
                 sh "scp -r /var/lib/jenkins/workspace/66026190-nextjs/* root@43.208.253.87:~/66026190-nextjs"
             }
         }
         
         stage("Build Docker Image") {
             steps {
-                //path yaml files
-				ansiblePlaybook playbook: '/var/lib/jenkins/workspace/66026190-nextjs/playbooks/build.yaml'
+                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/66026190-nextjs/playbooks/build.yaml'
             }    
         } 
         
-        stage("Create Docker Container") {
+        stage("Deploy Docker Container") {
             steps {
-                //path yaml files
-				ansiblePlaybook playbook: '/var/lib/jenkins/workspace/66026190-nextjs/playbooks/deploy.yaml'
+                ansiblePlaybook playbook: '/var/lib/jenkins/workspace/66026190-nextjs/playbooks/deploy.yaml'
             }    
         } 
     }
