@@ -3,11 +3,21 @@
   gather_facts: false
   remote_user: root
   tasks:
-    - name: Creating the Container
+    - name: Pull latest Docker image
+      docker_image:
+        name: 66026190-nextjs
+        source: pull  # Ensure the latest version of the image is pulled
+
+    - name: Create and start the container
       docker_container:
-         name: 66026190-nextjs-container #docker container name
-         image: 66026190-nextjs:latest #docker image name
-         ports:
-           - "6996:3000" #เลข port ตัวแรกคือเลข  port ที่รับมาจาก browser ตัวหลังคือ  port ของ docker (คงไว้ที่ 80 ถ้าเป็น nextjs project ก็ 3000)
-         state: started
-         restart: true
+        name: 66026190-nextjs-container  # Docker container name
+        image: 66026190-nextjs:latest  # Docker image name
+        ports:
+          - "6996:3000"  # Exposing the Docker port to host
+        state: started  # Ensure the container is started
+        restart_policy: always  # Ensure the container restarts automatically on failure
+        volumes:
+          - /path/to/your/nextjs/project:/app  # Mount the local Next.js project directory inside the container
+        environment:
+          - NODE_ENV=production  # Set the environment variable to production
+        command: ["npm", "run", "start"]  # Start the app in production mode
