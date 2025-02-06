@@ -5,9 +5,9 @@
   tasks:
     - name: Building Docker Image
       docker_image:
-         name: 66026190-nextjs:latest #docker image name
+         name: 66026190-nextjs:latest  # Docker image name
          source: build
          build:
-            path: ~/66026190-nextjs #path ที่เก็บไฟล์ sourcecode 
+            path: ~/66026190-nextjs  # Path to Next.js source code
          state: present
          force_source: true
